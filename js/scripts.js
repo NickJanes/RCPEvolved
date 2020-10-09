@@ -68,11 +68,21 @@ function choiceToString(choice) {
     return rpsAge[age][choice];
 }
 
-//let playerSelection = parseInt(window.prompt("Enter a number 0, 1, or 2."));
-let playerSelection = 0;
-let computerSelection;
-while(playerSelection !== '-1') {
-    playerSelection = prompt(lastText + "\nYou're in the " + rpsAgeName[age] + " age.\n" + choiceToString(0) + "(0), " + choiceToString(1) + "(1), or " + choiceToString(2) +"(2).");
-    computerSelection = computerPlay();
-    playRound(playerSelection, computerSelection);
+function updateButtons() {
+    buttons.forEach((button) => {
+        button.textContent = choiceToString(button.id);
+    });
 }
+
+let description = document.getElementById('description');
+const buttons = document.querySelectorAll('.choiceButton');
+
+buttons.forEach((button) => {
+
+    // and for each one we add a 'click' listener
+    button.addEventListener('click', () => {
+        playRound(button.id, computerPlay());
+        description.textContent = lastText + ". You're in the " + rpsAgeName[age] + " age.";
+        updateButtons();
+    });
+});
